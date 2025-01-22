@@ -35,7 +35,7 @@ public class CategoryController {
     @GetMapping("categories")
     public ResponseEntity<Page<Category>> getAllCategories(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size  
+            @RequestParam(defaultValue = "10") int size
     ) {
         Page<Category> categoryPage = categoryService.findAllCategories(page, size);
         return ResponseEntity.ok(categoryPage);
