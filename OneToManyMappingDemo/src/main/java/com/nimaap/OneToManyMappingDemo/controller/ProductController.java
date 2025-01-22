@@ -26,4 +26,13 @@ public class ProductController {
         ProductResponseDto product = productService.getProductBy(id);
         return ResponseEntity.status(HttpStatus.OK).body(product);
     }
+
+    @DeleteMapping("product/{id}")
+    ResponseEntity<String> deleteProduct(@PathVariable Long id) {
+        boolean isDeleted = productService.removeProduct(id);
+        if (isDeleted)
+            return ResponseEntity.status(HttpStatus.OK).body("Product Removed Successfully..!");
+        else
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Product not found");
+    }
 }

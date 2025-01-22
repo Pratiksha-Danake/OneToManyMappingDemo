@@ -1,5 +1,6 @@
 package com.nimaap.OneToManyMappingDemo.service;
 
+import com.nimaap.OneToManyMappingDemo.controller.ProductController;
 import com.nimaap.OneToManyMappingDemo.controller.ProductResponseDto;
 import com.nimaap.OneToManyMappingDemo.dao.CategoryRepository;
 import com.nimaap.OneToManyMappingDemo.dao.ProductRepository;
@@ -50,5 +51,14 @@ public class ProductService {
                 .category_id(product.get().getCategory().getId())
                 .category_name(product.get().getCategory().getName())
                 .build();
+    }
+
+
+    public boolean removeProduct(Long id) {
+        if (productRepository.existsById(id)) {
+            productRepository.deleteById(id);
+            return true;
+        } else
+            return false;
     }
 }
