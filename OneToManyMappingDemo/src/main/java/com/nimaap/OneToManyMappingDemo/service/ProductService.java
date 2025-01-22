@@ -38,4 +38,17 @@ public class ProductService {
                 .category_name(category.get().getName())
                 .build();
     }
+
+    public ProductResponseDto getProductBy(Long id) {
+        Optional<Product> product = productRepository.findById(id);
+
+        return ProductResponseDto.builder()
+                .id(product.get().getId())
+                .name(product.get().getName())
+                .description(product.get().getDescription())
+                .price(product.get().getPrice())
+                .category_id(product.get().getCategory().getId())
+                .category_name(product.get().getCategory().getName())
+                .build();
+    }
 }
