@@ -4,11 +4,11 @@ import com.nimaap.OneToManyMappingDemo.dto.CreateCategoryRequestDto;
 import com.nimaap.OneToManyMappingDemo.entity.Category;
 import com.nimaap.OneToManyMappingDemo.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -33,12 +33,12 @@ public class CategoryController {
     }
 
     @GetMapping("categories")
-    ResponseEntity<List<Category>> getAllCategories() {
-        List<Category> allCategories = categoryService.findAllCategories();
-        if (allCategories.isEmpty())
-            return ResponseEntity.noContent().build();
-        else
-            return ResponseEntity.status(HttpStatus.OK).body(allCategories);
+    public ResponseEntity<Page<Category>> getAllCategories(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size  
+    ) {
+        Page<Category> categoryPage = categoryService.findAllCategories(page, size);
+        return ResponseEntity.ok(categoryPage);
     }
 
     @DeleteMapping("category/{id}")
@@ -56,8 +56,7 @@ public class CategoryController {
         if (updatedCategory.isEmpty()) {
             System.out.println("failed to update");
             return ResponseEntity.noContent().build();
-        }
-        else
+        } else
             return ResponseEntity.status(HttpStatus.OK).body(updatedCategory.get());
     }
 

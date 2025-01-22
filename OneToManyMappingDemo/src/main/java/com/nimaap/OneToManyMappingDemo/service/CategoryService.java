@@ -4,10 +4,11 @@ import com.nimaap.OneToManyMappingDemo.dao.CategoryRepository;
 import com.nimaap.OneToManyMappingDemo.dto.CreateCategoryRequestDto;
 import com.nimaap.OneToManyMappingDemo.entity.Category;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,18 +29,18 @@ public class CategoryService {
         return Optional.empty();
     }
 
-    public boolean removeCategory(Long id) {
-        if (categoryRepository.existsById(id)){
-            categoryRepository.deleteById(id);
-            return true;
-        }
-        else
-            return false;
+    public Page<Category> findAllCategories(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size); // Page index is 0-based
+        return categoryRepository.findAll(pageable); // Use the inherited method
     }
 
-    public List<Category> findAllCategories() {
-        List<Category> allCategories = categoryRepository.findAll();
-        return allCategories.isEmpty() ? Collections.emptyList() : allCategories;
+
+    public boolean removeCategory(Long id) {
+        if (categoryRepository.existsById(id)) {
+            categoryRepository.deleteById(id);
+            return true;
+        } else
+            return false;
     }
 
     public Optional<Category> updateCategoryDetails(Long id, CreateCategoryRequestDto updatedDto) {
