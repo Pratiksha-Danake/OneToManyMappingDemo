@@ -30,8 +30,8 @@ public class CategoryService {
     }
 
     public Page<Category> findAllCategories(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size); // Page index is 0-based
-        return categoryRepository.findAll(pageable); // Use the inherited method
+        Pageable pageable = PageRequest.of(page, size);
+        return categoryRepository.findAll(pageable);
     }
 
 

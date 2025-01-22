@@ -6,6 +6,7 @@ import com.nimaap.OneToManyMappingDemo.entity.Category;
 import com.nimaap.OneToManyMappingDemo.entity.Product;
 import com.nimaap.OneToManyMappingDemo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,15 @@ public class ProductController {
     ResponseEntity<ProductResponseDto> getProduct(@PathVariable Long id) {
         ProductResponseDto product = productService.getProductBy(id);
         return ResponseEntity.status(HttpStatus.OK).body(product);
+    }
+
+    @GetMapping("products")
+    public ResponseEntity<Page<Product>> getAllProducts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Page<Product> productPage = productService.findAllProducts(page, size);
+        return ResponseEntity.ok(productPage);
     }
 
     @DeleteMapping("product/{id}")

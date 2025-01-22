@@ -7,6 +7,9 @@ import com.nimaap.OneToManyMappingDemo.dto.CreateProductRequestDto;
 import com.nimaap.OneToManyMappingDemo.entity.Category;
 import com.nimaap.OneToManyMappingDemo.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -71,5 +74,10 @@ public class ProductService {
             product.setCategory(categoryOptional.get());
             return productRepository.save(product);
         });
+    }
+
+    public Page<Product> findAllProducts(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return productRepository.findAll(pageable);
     }
 }
