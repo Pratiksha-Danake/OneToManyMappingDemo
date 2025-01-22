@@ -3,7 +3,7 @@ package com.nimaap.OneToManyMappingDemo.service;
 import com.nimaap.OneToManyMappingDemo.controller.ProductResponseDto;
 import com.nimaap.OneToManyMappingDemo.dao.CategoryRepository;
 import com.nimaap.OneToManyMappingDemo.dao.ProductRepository;
-import com.nimaap.OneToManyMappingDemo.dto.CreateProductRequestDto;
+import com.nimaap.OneToManyMappingDemo.dto.ProductRequestDto;
 import com.nimaap.OneToManyMappingDemo.entity.Category;
 import com.nimaap.OneToManyMappingDemo.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    public ProductResponseDto addProduct(CreateProductRequestDto productRequestDto) {
+    public ProductResponseDto addProduct(ProductRequestDto productRequestDto) {
         Optional<Category> category = categoryRepository.findById(productRequestDto.getCategory_id());
         Product productToAdd = Product.builder()
                 .name(productRequestDto.getName())
@@ -64,7 +64,7 @@ public class ProductService {
             return false;
     }
 
-    public Optional<Product> updateProductDetails(Long id, CreateProductRequestDto requestDto) {
+    public Optional<Product> updateProductDetails(Long id, ProductRequestDto requestDto) {
         Optional<Category> categoryOptional = categoryRepository.findById(requestDto.getCategory_id());
 
         return productRepository.findById(id).map(product -> {

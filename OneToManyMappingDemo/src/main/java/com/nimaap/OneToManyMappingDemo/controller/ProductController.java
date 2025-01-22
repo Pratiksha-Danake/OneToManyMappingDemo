@@ -1,8 +1,6 @@
 package com.nimaap.OneToManyMappingDemo.controller;
 
-import com.nimaap.OneToManyMappingDemo.dto.CreateCategoryRequestDto;
-import com.nimaap.OneToManyMappingDemo.dto.CreateProductRequestDto;
-import com.nimaap.OneToManyMappingDemo.entity.Category;
+import com.nimaap.OneToManyMappingDemo.dto.ProductRequestDto;
 import com.nimaap.OneToManyMappingDemo.entity.Product;
 import com.nimaap.OneToManyMappingDemo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +17,7 @@ public class ProductController {
     private ProductService productService;
 
     @PostMapping("product")
-    ResponseEntity<ProductResponseDto> addProduct(@RequestBody CreateProductRequestDto productRequestDto) {
+    ResponseEntity<ProductResponseDto> addProduct(@RequestBody ProductRequestDto productRequestDto) {
         ProductResponseDto addedProduct = productService.addProduct(productRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(addedProduct);
     }
@@ -49,7 +47,7 @@ public class ProductController {
     }
 
     @PutMapping("product/{id}")
-    ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody CreateProductRequestDto requestDto) {
+    ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody ProductRequestDto requestDto) {
         Optional<Product> updatedProduct = productService.updateProductDetails(id, requestDto);
         if (updatedProduct.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body(updatedProduct.get());

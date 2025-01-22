@@ -3,7 +3,7 @@ package com.nimaap.OneToManyMappingDemo.dto;
 import lombok.Data;
 
 @Data
-public class CreateProductRequestDto {
+public class ProductRequestDto {
     public String name;
     public String description;
     public double price;
