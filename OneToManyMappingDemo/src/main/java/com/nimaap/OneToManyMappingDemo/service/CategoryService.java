@@ -6,6 +6,8 @@ import com.nimaap.OneToManyMappingDemo.entity.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -33,5 +35,10 @@ public class CategoryService {
         }
         else
             return false;
+    }
+
+    public List<Category> findAllCategories() {
+        List<Category> allCategories = categoryRepository.findAll();
+        return allCategories.isEmpty() ? Collections.emptyList() : allCategories;
     }
 }

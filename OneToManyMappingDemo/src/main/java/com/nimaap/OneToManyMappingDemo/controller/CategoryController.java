@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -31,6 +32,15 @@ public class CategoryController {
             return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("categories")
+    ResponseEntity<List<Category>> getAllCategories(){
+        List<Category> allCategories= categoryService.findAllCategories();
+        if (allCategories.isEmpty())
+            return ResponseEntity.noContent().build();
+        else
+            return ResponseEntity.status(HttpStatus.OK).body(allCategories);
+    }
+
     @DeleteMapping("category/{id}")
     ResponseEntity<String> deleteCategory(@PathVariable Long id){
         boolean isDeleted = categoryService.removeCategory(id);
@@ -39,4 +49,5 @@ public class CategoryController {
         else
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Category not found");
     }
+
 }
