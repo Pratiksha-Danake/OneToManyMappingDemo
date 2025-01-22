@@ -1,6 +1,5 @@
 package com.nimaap.OneToManyMappingDemo.service;
 
-import com.nimaap.OneToManyMappingDemo.controller.ProductController;
 import com.nimaap.OneToManyMappingDemo.controller.ProductResponseDto;
 import com.nimaap.OneToManyMappingDemo.dao.CategoryRepository;
 import com.nimaap.OneToManyMappingDemo.dao.ProductRepository;
@@ -9,7 +8,6 @@ import com.nimaap.OneToManyMappingDemo.entity.Category;
 import com.nimaap.OneToManyMappingDemo.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Optional;
 
@@ -20,6 +18,7 @@ public class ProductService {
 
     @Autowired
     private ProductRepository productRepository;
+
     public ProductResponseDto addProduct(CreateProductRequestDto productRequestDto) {
         Optional<Category> category = categoryRepository.findById(productRequestDto.getCategory_id());
         Product productToAdd = Product.builder()
@@ -60,5 +59,17 @@ public class ProductService {
             return true;
         } else
             return false;
+    }
+
+    public Optional<Product> updateProductDetails(Long id, CreateProductRequestDto requestDto) {
+        Optional<Category> categoryOptional = categoryRepository.findById(requestDto.getCategory_id());
+
+        return productRepository.findById(id).map(product -> {
+            product.setName(requestDto.getName());
+            product.setDescription(requestDto.getDescription());
+            product.setPrice(requestDto.getPrice());
+            product.setCategory(categoryOptional.get());
+            return productRepository.save(product);
+        });
     }
 }
