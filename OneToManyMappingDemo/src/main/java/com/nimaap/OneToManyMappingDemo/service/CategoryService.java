@@ -25,4 +25,13 @@ public class CategoryService {
             return categoryRepository.findById(id);
         return Optional.empty();
     }
+
+    public boolean removeCategory(Long id) {
+        if (categoryRepository.existsById(id)){
+            categoryRepository.deleteById(id);
+            return true;
+        }
+        else
+            return false;
+    }
 }

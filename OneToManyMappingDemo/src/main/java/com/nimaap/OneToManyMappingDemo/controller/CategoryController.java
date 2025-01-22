@@ -30,4 +30,13 @@ public class CategoryController {
         else
             return ResponseEntity.noContent().build();
     }
+
+    @DeleteMapping("category/{id}")
+    ResponseEntity<String> deleteCategory(@PathVariable Long id){
+        boolean isDeleted = categoryService.removeCategory(id);
+        if (isDeleted)
+            return ResponseEntity.status(HttpStatus.OK).body("Category Deleted Successfully..!");
+        else
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Category not found");
+    }
 }
