@@ -24,7 +24,7 @@ public class CategoryController {
     }
 
     @GetMapping("category/{id}")
-    ResponseEntity<Category> getCategory(@PathVariable Long id){
+    ResponseEntity<Category> getCategory(@PathVariable Long id) {
         Optional<Category> category = categoryService.getCategory(id);
         if (category.isPresent())
             return ResponseEntity.status(HttpStatus.FOUND).body(category.get());
@@ -33,8 +33,8 @@ public class CategoryController {
     }
 
     @GetMapping("categories")
-    ResponseEntity<List<Category>> getAllCategories(){
-        List<Category> allCategories= categoryService.findAllCategories();
+    ResponseEntity<List<Category>> getAllCategories() {
+        List<Category> allCategories = categoryService.findAllCategories();
         if (allCategories.isEmpty())
             return ResponseEntity.noContent().build();
         else
@@ -42,12 +42,23 @@ public class CategoryController {
     }
 
     @DeleteMapping("category/{id}")
-    ResponseEntity<String> deleteCategory(@PathVariable Long id){
+    ResponseEntity<String> deleteCategory(@PathVariable Long id) {
         boolean isDeleted = categoryService.removeCategory(id);
         if (isDeleted)
             return ResponseEntity.status(HttpStatus.OK).body("Category Deleted Successfully..!");
         else
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Category not found");
+    }
+
+    @PutMapping("category/{id}")
+    ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestBody CreateCategoryRequestDto requestDto) {
+        Optional<Category> updatedCategory = categoryService.updateCategoryDetails(id, requestDto);
+        if (updatedCategory.isEmpty()) {
+            System.out.println("failed to update");
+            return ResponseEntity.noContent().build();
+        }
+        else
+            return ResponseEntity.status(HttpStatus.OK).body(updatedCategory.get());
     }
 
 }

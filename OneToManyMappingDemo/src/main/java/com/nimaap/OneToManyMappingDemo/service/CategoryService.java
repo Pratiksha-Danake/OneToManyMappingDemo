@@ -41,4 +41,11 @@ public class CategoryService {
         List<Category> allCategories = categoryRepository.findAll();
         return allCategories.isEmpty() ? Collections.emptyList() : allCategories;
     }
+
+    public Optional<Category> updateCategoryDetails(Long id, CreateCategoryRequestDto updatedDto) {
+        return categoryRepository.findById(id).map(category -> {
+            category.setName(updatedDto.getName());
+            return categoryRepository.save(category);
+        });
+    }
 }
